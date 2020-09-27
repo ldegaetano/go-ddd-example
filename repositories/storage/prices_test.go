@@ -3,14 +3,9 @@ package storage
 import (
 	"testing"
 
-	"github.com/ldegaetano/go-ddd-example/utils"
-
 	"github.com/stretchr/testify/assert"
 )
 
-func init() {
-	utils.ChangeWorkDir("../../")
-}
 func clearDB(storage storageRepository) {
 	storage.db.Exec(`TRUNCATE TABLE items;`)
 }

@@ -92,7 +92,7 @@ func TestGetPricesFor_MaxItemsExceded(t *testing.T) {
 func TestGetPricesFor_InternalErr(t *testing.T) {
 	service := serviceMock{}
 	handler := StartHandler()
-	handler.ItemsService = &service
+	handler.PricesService = &service
 	service.On("GetPricesFor", "p1").Return(map[string]float64{}, errors.InternalError)
 
 	path := handler.BasePath + handler.PricesPath
@@ -105,7 +105,7 @@ func TestGetPricesFor_InternalErr(t *testing.T) {
 func TestGetPricesFor_NotFound(t *testing.T) {
 	service := serviceMock{}
 	handler := StartHandler()
-	handler.ItemsService = &service
+	handler.PricesService = &service
 	service.On("GetPricesFor", "p2").Return(map[string]float64{}, errors.NotFoundItems)
 
 	path := handler.BasePath + handler.PricesPath
@@ -118,7 +118,7 @@ func TestGetPricesFor_NotFound(t *testing.T) {
 func TestGetPricesFor_ReturnPrices(t *testing.T) {
 	service := serviceMock{}
 	handler := StartHandler()
-	handler.ItemsService = &service
+	handler.PricesService = &service
 	service.On("GetPricesFor", "p2").Return(map[string]float64{"p2": 10}, nil)
 
 	path := handler.BasePath + handler.PricesPath
@@ -134,7 +134,7 @@ func TestGetPricesFor_ReturnPrices(t *testing.T) {
 func TestPostPricesFor_InvalidFormat(t *testing.T) {
 	service := serviceMock{}
 	handler := StartHandler()
-	handler.ItemsService = &service
+	handler.PricesService = &service
 
 	path := handler.BasePath + handler.PricesPath
 	w := utils.ServeTestRequest("POST", path, strings.NewReader("{"), handler.SetPricesFor, "")
@@ -146,7 +146,7 @@ func TestPostPricesFor_InvalidFormat(t *testing.T) {
 func TestPostPricesFor_InternalErr(t *testing.T) {
 	service := serviceMock{}
 	handler := StartHandler()
-	handler.ItemsService = &service
+	handler.PricesService = &service
 	service.On("SetPriceFor", "p14", float64(15)).Return(errors.InternalError)
 
 	body := `{"item_code": "p14","item_price": 15}`
@@ -161,7 +161,7 @@ func TestPostPricesFor_InternalErr(t *testing.T) {
 func TestPostPricesFor_StatusOK(t *testing.T) {
 	service := serviceMock{}
 	handler := StartHandler()
-	handler.ItemsService = &service
+	handler.PricesService = &service
 	service.On("SetPriceFor", "p14", float64(15)).Return(nil)
 
 	body := `{"item_code": "p14","item_price": 15}`

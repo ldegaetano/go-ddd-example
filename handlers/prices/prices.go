@@ -26,7 +26,7 @@ type PricesHandler struct {
 }
 
 func StartHandler() PricesHandler {
-	return ItemsHandler{
+	return PricesHandler{
 		BasePath:   "/api/items",
 		PricesPath: "/prices",
 		PricesService: prices.NewService(
@@ -36,7 +36,7 @@ func StartHandler() PricesHandler {
 	}
 }
 
-func (i ItemsHandler) GetPricesFor(c *gin.Context) {
+func (i PricesHandler) GetPricesFor(c *gin.Context) {
 	itemsStr := c.Query(itemsCodesParam)
 
 	itemsCodes, validateErr := validateItems(itemsStr)
@@ -59,7 +59,7 @@ func (i ItemsHandler) GetPricesFor(c *gin.Context) {
 }
 
 //SetPricesFor set price to item_code, if exists update the price
-func (i ItemsHandler) SetPricesFor(c *gin.Context) {
+func (i PricesHandler) SetPricesFor(c *gin.Context) {
 	p := priceCreate{}
 
 	if err := c.BindJSON(&p); err != nil {

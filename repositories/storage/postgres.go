@@ -4,13 +4,18 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/ldegaetano/go-ddd-example/utils"
-
 	"github.com/labstack/gommon/log"
 
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres driver
 	"github.com/ldegaetano/go-ddd-example/settings"
 )
+
+const initQuery = `CREATE TABLE IF NOT EXISTS items (
+	item_code  VARCHAR NOT NULL,
+	item_price NUMERIC(10,2) NOT NULL,
+			
+	CONSTRAINT items_pk PRIMARY KEY (item_code)
+);`
 
 type storageRepository struct {
 	db *sql.DB
@@ -38,11 +43,7 @@ func New() storageRepository {
 		return *storage
 	}
 
-	initeQuery, err := utils.ReadQuery("migrations/", "init")
-	if err != nil {
-		log.Errorf("[init_db_err:%s]", err.Error())
-	}
-	db.Exec(initeQuery)
+	db.Exec(initQuery)
 
 	storage = &storageRepository{db}
 	return *storage

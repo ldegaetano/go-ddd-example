@@ -5,7 +5,7 @@
 ## Features and Roadmap
 ### v0.1
 
-* Service as a transparent cache for retrive prices.
+* Prices service as a transparent cache for retrive prices.
 * Prices storage.
 * Prices cache.
 * Prices handler.
